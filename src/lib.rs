@@ -55,7 +55,7 @@ pub struct InjuryDamage {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RecoveryModifiers {
     pub age: f64,
-    pub adherence: f64, // 0..1
+    pub adherence: f64,     // 0..1
     pub sleep_quality: f64, // 0..1
     pub prior_concussions: u32,
     pub protocol: Protocol,
@@ -195,7 +195,8 @@ pub fn run_mc_recovery(
 
         for day in 0..cfg.max_days {
             // very simple continuous-ish update + discrete setbacks (using thread rng for simplicity in MVP; seeded path still deterministic across full runs)
-            let mut rate = heal_base * (1.0 + adh_boost - age_penalty - prior_penalty) * protocol_mult;
+            let mut rate =
+                heal_base * (1.0 + adh_boost - age_penalty - prior_penalty) * protocol_mult;
             // early fast phase, then tail
             if day < 10 {
                 rate *= 1.6;
@@ -244,7 +245,11 @@ pub fn run_mc_recovery(
 }
 
 /// Simple aggregate stats (expand with full bands later).
-pub fn summarize(traces: &[RecoveryTrace], strain: StrainMetrics, damage: InjuryDamage) -> SimSummary {
+pub fn summarize(
+    traces: &[RecoveryTrace],
+    strain: StrainMetrics,
+    damage: InjuryDamage,
+) -> SimSummary {
     if traces.is_empty() {
         return SimSummary {
             n_runs: 0,
@@ -256,14 +261,13 @@ pub fn summarize(traces: &[RecoveryTrace], strain: StrainMetrics, damage: Injury
             median_setbacks: 0.0,
         };
     }
-    let mut days80: Vec<u32> = traces.iter().filter_map(|t| t.milestones.days_to_80pct).collect();
+    let mut days80: Vec<u32> = traces
+        .iter()
+        .filter_map(|t| t.milestones.days_to_80pct)
+        .collect();
     days80.sort_unstable();
     let n = days80.len();
-    let med = if n > 0 {
-        days80[n / 2] as f64
-    } else {
-        999.0
-    };
+    let med = if n > 0 { days80[n / 2] as f64 } else { 999.0 };
     let p05 = if n > 0 {
         days80[(n as f64 * 0.05) as usize] as f64
     } else {
@@ -342,7 +346,11 @@ mod tests {
             max_days: 300,
             seed: Some(7),
         };
-        let s_low = summarize(&run_mc_recovery(&dmg, &base_mods, &cfg), strain.clone(), dmg.clone());
+        let s_low = summarize(
+            &run_mc_recovery(&dmg, &base_mods, &cfg),
+            strain.clone(),
+            dmg.clone(),
+        );
         let s_high = summarize(&run_mc_recovery(&dmg, &good_mods, &cfg), strain, dmg);
         // higher adherence should produce earlier (or equal) median 80%
         assert!(s_high.median_days_80pct <= s_low.median_days_80pct + 5.0);

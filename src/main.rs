@@ -5,7 +5,11 @@ use recoverly_sim::*;
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "recoverly-sim", version, about = "Brain injury recovery simulation (Ji Lab CNN / custom models + stochastic recovery)")]
+#[command(
+    name = "recoverly-sim",
+    version,
+    about = "Brain injury recovery simulation (Ji Lab CNN / custom models + stochastic recovery)"
+)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -183,7 +187,9 @@ fn main() -> Result<()> {
         Commands::ListGenerators {} => {
             println!("synthetic (built-in pulse generator)");
             println!("ji-regional (stub — will call Jilab-biomechanics/CNN-brain-strains)");
-            println!("ji-distrib (stub — will call Jilab-biomechanics/CNN-estimation-of-brain-strain-distribution)");
+            println!(
+                "ji-distrib (stub — will call Jilab-biomechanics/CNN-estimation-of-brain-strain-distribution)"
+            );
             println!("(custom PINN/GNN can supply equivalent StrainMetrics)");
         }
     }
