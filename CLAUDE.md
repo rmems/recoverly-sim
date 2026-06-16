@@ -53,18 +53,25 @@ bd close <id>         # Complete work
 
 ## Build & Test
 
-_Add your build and test commands here_
-
 ```bash
-# Example:
-# npm install
-# npm test
+cargo fmt -- --check
+cargo clippy -- -D warnings
+cargo test --locked
+cargo run -- simulate --peak-rot 23 --mc-runs 120 --seed 7 --export /tmp/outs/
+cargo run --example basic
+# (after Ji setup) cargo run -- simulate --from-ji ...
 ```
 
 ## Architecture Overview
 
-_Add a brief overview of your project architecture_
+**One line:** Rust lib+CLI for kinematics → (Ji Lab CNN bridge or synthetic/PINN/GNN) strain metrics → stochastic MC recovery trajectories (modifiers, setbacks, milestones) + exports; thin scripts + Julia/Python scaffolds for custom lightweight model training + viz. GPL-3, dual GH+GL remotes, beads-tracked.
+
+See README for Ji citations, owns/does-not-owns, and how custom models plug in.
 
 ## Conventions & Patterns
 
-_Add your project-specific conventions here_
+- Use `bd` for **all** task tracking (create before code, claim, close in batches).
+- Follow sibling patterns (xai-dissect, gaming-telemetry, Surrogate_Viz.jl): focused ownership, determinism + seeded tests, structured exports, detailed README with citations.
+- Non-interactive shell ops.
+- Session close requires quality gates + `git pull --rebase && git push` + clean `git status` "up to date".
+- Never commit large weights or real patient data.

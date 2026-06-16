@@ -3,3 +3,19 @@
 .dolt/
 *.db
 .beads-credential-key
+
+# Rust
+/target/
+**/*.rs.bk
+
+# recoverly-sim artifacts
+/outputs/
+/data/*.mat
+/models/
+*.svg
+*.png
+*.parquet
+*.onnx
+*.pt
+*.pb
+Cargo.lock  # keep for bins if desired; comment out if lib-only preference

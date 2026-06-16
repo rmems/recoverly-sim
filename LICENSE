@@ -1,0 +1,20 @@
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU General Public License is a free, copyleft license for
+software and other kinds of works.
+
+  ...
+
+(Full text at https://www.gnu.org/licenses/gpl-3.0.txt ; this is a placeholder
+for the standard GPL-3.0-only as used by siblings and Ji Lab repos.
+Replace with full text before release if desired.)
+
+In practice for this repo we adopt GPL-3.0-only to match Ji Lab CNN tools
+we integrate or cite.
