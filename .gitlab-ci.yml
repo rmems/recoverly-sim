@@ -1,0 +1,49 @@
+# GitLab CI for recoverly-sim
+# Mirrors .github/workflows/ci.yml for Rust fmt/clippy/test
+# Run on pushes and merge requests to main (and feature branches for testing)
+
+image: rust:1.85
+
+variables:
+  CARGO_TERM_COLOR: always
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
+
+cache:
+  paths:
+    - .cargo/
+    - target/debug/deps/
+    - target/debug/.fingerprint/
+
+before_script:
+  - rustup component add rustfmt clippy
+
+stages:
+  - check
+  - test
+
+fmt:
+  stage: check
+  script:
+    - cargo fmt -- --check
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^feat\//   # allow testing feature branches
+
+clippy:
+  stage: check
+  script:
+    - cargo clippy -- -D warnings
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^feat\//
+
+test:
+  stage: test
+  script:
+    - cargo test --locked
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /^feat\//

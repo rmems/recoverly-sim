@@ -62,6 +62,16 @@ cargo run --example basic
 # (after Ji setup) cargo run -- simulate --from-ji ...
 ```
 
+### GitLab CI testing (on feature branches / current branch)
+```bash
+# After pushing the branch to gitlab remote
+glab pipeline list --branch feat/add-gitlab-ci   # or current branch name
+glab pipeline status   # latest on current branch
+# Visit the pipeline in browser: https://gitlab.com/rmems/recoverly-sim/-/pipelines
+# To follow logs: glab ci trace <job-id>  (or use web)
+```
+Note: .gitlab-ci.yml runs fmt/clippy/test on MRs, main, and feat/* branches for easy testing of current work.
+
 ## Architecture Overview
 
 **One line:** Rust lib+CLI for kinematics → (Ji Lab CNN bridge or synthetic/PINN/GNN) strain metrics → stochastic MC recovery trajectories (modifiers, setbacks, milestones) + exports; thin scripts + Julia/Python scaffolds for custom lightweight model training + viz. GPL-3, dual GH+GL remotes, beads-tracked.
