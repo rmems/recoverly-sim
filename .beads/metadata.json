@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "recoverly",
+  "project_id": "63cbe4a2-7c57-4bcc-837c-3be0ada9486d"
+}
